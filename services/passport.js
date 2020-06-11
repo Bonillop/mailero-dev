@@ -12,11 +12,15 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  user = await User.findById(id);
-  if(user){
-    done(null, user); // passport attaches this user to the req.user along with a few methods to manipulate it, for example req.logout
-  } else {
-    done("The mummy has rotted");
+  try{
+    user = await User.findById(id);
+    if(user){
+      done(null, user); // passport attaches this user to the req.user along with a few methods to manipulate it, for example req.logout
+    } else {
+      done("The mummy has rotted");
+    }
+  } catch(e) {
+
   }
 });
 
@@ -25,7 +29,8 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback"
+      callbackURL: "/auth/google/callback",
+      proxy: true // To deal with the heroku proxy
     },
     async (accessToken, refreshToken, profile, done) => {
       existingUser = await User.findOne({ googleId: profile.id });
