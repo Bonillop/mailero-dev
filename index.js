@@ -1,14 +1,27 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const cookieSession = require('cookie-session');
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const keys = require('./config/keys')
+require('./models/user'); // Since we use user in passport, we must require it first
+require('./services/passport'); // This is for when we want to execute code but not use a function or something like that
+const authRoutes = require('./routes/authRoutes'); // SECOND APPROACH
+const apiRoutes = require('./routes/apiRoutes');
 
-const app = express()
+mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
+const app = express();
+app.use(cookieSession({
+  maxAge: 30 * 24 * 60 * 60 * 1000,
+  keys: [keys.cookieKey]
+}))
+app.use(passport.initialize());
+app.use(passport.session());
 
-passport.use(new GoogleStrategy());
+// require("./routes/authRoutes")(app); FIRST APPROACH, we pass app as an argument for the function with the routes
+app.use("/auth", authRoutes); // SECOND APPROACH
+app.use("/api", apiRoutes);
 
-app.get("/", (req, res) => {
-  res.send({hi: "there"});
-});
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

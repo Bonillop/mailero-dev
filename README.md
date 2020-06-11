@@ -7,6 +7,13 @@ But we use at least 2 libraries `passport` is the core for handling auth in expr
 
 Then we use `passport strategy` for the specific provider, for example google. facebook or github.
 
+# Express file structure
+One approach of folder structure is:
+
+- config - protected API keys and settings
+- routes - route handlers
+- services/helpers - helper modules and business logic
+- index.js - main file
 
 
 # Heroku
