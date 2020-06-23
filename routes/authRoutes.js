@@ -14,6 +14,13 @@ const passport = require('passport');
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-router.get("/google/callback", passport.authenticate("google"));
+// Here we define a get url, with the passport middleware and finally our request handler logic,
+// We can chain as many middlewares as we desire for an specific request
+router.get(
+  "/google/callback",
+  passport.authenticate("google"),
+  (req, res) => {
+    res.redirect("/surveys");
+  });
 
 module.exports = router;

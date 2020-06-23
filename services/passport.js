@@ -20,7 +20,8 @@ passport.deserializeUser(async (id, done) => {
       done("The mummy has rotted");
     }
   } catch(e) {
-
+    console.log(e);
+    done("Error")
   }
 });
 
@@ -30,17 +31,22 @@ passport.use(
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
       callbackURL: "/auth/google/callback",
-      proxy: true // To deal with the heroku proxy
+      proxy: true // To deal with the heroku since it uses a proxy
     },
     async (accessToken, refreshToken, profile, done) => {
-      existingUser = await User.findOne({ googleId: profile.id });
-      if(existingUser){
-        done(null, existingUser);
-      } else {
-        user = await new User({ googleId: profile.id }).save();
-        if(user){
-          done(null, user);
+      try {
+        existingUser = await User.findOne({ googleId: profile.id });
+        if(existingUser){
+          done(null, existingUser);
+        } else {
+          user = await new User({ googleId: profile.id }).save();
+          if(user){
+            done(null, user);
+          }
         }
+      } catch(e){
+        console.log(e);
+        done("Error");
       }
     }
   )

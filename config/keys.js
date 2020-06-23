@@ -1,6 +1,6 @@
 // Figure out what set of credentials return
 
-// This is made by heroku
+// This is env variable is provided by heroku
 if(process.env.NODE_ENV === "production") {
   // We are in production
   module.exports = require("./prod");
