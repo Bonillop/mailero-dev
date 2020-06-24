@@ -41,6 +41,20 @@ It is also important to define the `start` script in `package.json`, for example
 
 Heroku integrates very well with git so it is important to define a `.gitignore` file with at least the `/node_modules` folder
 
+## heroku-prebuild, heroku-postbuild
+We can define a postinstall script in our package.json that heroku will run after it has build the project, in order to, for example in this case, build the client side of our application
+
+    "scripts": {
+      "heroku-prebuild": "echo This runs before Heroku installs dependencies.",
+      "heroku-postbuild": "echo This runs after Heroku installs dependencies, but before Heroku prunes and caches     dependencies.",
+      "heroku-cleanup": "echo This runs after Heroku prunes and caches dependencies."
+    }
+
+in our app
+> "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+
+We first set the NPM_CONFIG_PRODUCTION environment variable to false, only for this command, that way npm understands that it also needs to install devDependencies in order to have them and properly build the application. Then we run the npm install inside the client directory (--prefix client sets the directory), and after that we run the build script, again in the client directory
+
 ## CLI
 first download the CLI, once installed we must login using the command `heroku login`, then we create an app with te command `heroku create`, it is important to have initialized a git repository in order to later deploy to heroku. this command gives you an url to set as a remote heroku repository, so you then have to run this command ` git remote add heroku [the given url]` (In some cases may not be necesary)
 
