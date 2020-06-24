@@ -23,7 +23,8 @@ app.use(passport.session());
 app.use("/auth", authRoutes); // SECOND APPROACH
 app.use("/api", apiRoutes);
 
-// production config
+// production config. We do this since in production we don't have a separate create-react-app server and an express server
+// when the project builds it becomes one, so the proxy configuration won't be used in this case
 if(process.env.NODE_ENV === "production") {
   // Express will serve up production assets
   // like our main.js file, or main.css file
@@ -31,7 +32,8 @@ if(process.env.NODE_ENV === "production") {
 
   const path = require("path");
 
-  // Express will serve the index.html file if it doesn't recognize the route
+  // Express will serve the index.html file if it doesn't recognize the route, that way our react side application
+  // will handle the route
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   })
