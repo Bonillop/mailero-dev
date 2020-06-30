@@ -4,10 +4,12 @@ const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const keys = require('./config/keys')
-require('./models/user'); // Since we use user in passport, we must require it first
+require('./models/User'); // Since we use user in passport, we must require it first
+require('./models/Survey')
 require('./services/passport'); // This is for when we want to execute code but not use a function or something like that
 const authRoutes = require('./routes/authRoutes'); // SECOND APPROACH
 const apiRoutes = require('./routes/apiRoutes');
+const surveyRoutes = require('./routes/surveyRoutes');
 
 mongoose.connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 const app = express();
@@ -22,6 +24,8 @@ app.use(passport.session());
 // require("./routes/authRoutes")(app); FIRST APPROACH, we pass app as an argument for the function with the routes
 app.use("/auth", authRoutes); // SECOND APPROACH
 app.use("/api", apiRoutes);
+// routes approach inconsistency due to learning purposes, should stick to one approach in reality
+require("./routes/surveyRoutes")(app); //FIRST APPROACH example
 
 // production config. We do this since in production we don't have a separate create-react-app server and an express server
 // when the project builds it becomes one, so the proxy configuration won't be used in this case

@@ -30,7 +30,7 @@ router.post("/stripe", requireLogin, async (req, res) => {
     req.user.credits += 5;
     const updatedUser = await req.user.save();
 
-    res.send(user);
+    res.send(updatedUser);
   } catch (error) {
     console.log(error);
   }

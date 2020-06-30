@@ -11,6 +11,11 @@ import reducers from './reducers';
 import App from './components/App/App';
 import reduxThunk from 'redux-thunk';
 
+// import axios and assign to window in order to use it as a rest client for development api testing, this way
+// we can quickly make requests having all the cookies and session data. Still postman is preferred
+import axios from 'axios';
+window.axios = axios;
+
 // Create de redux store
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 

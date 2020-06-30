@@ -1,6 +1,10 @@
-# React-Node-App
+# Mailero
+This is a practice app that lets a user register with OAuth, then it has the ability to process credit card payments in order to buy credits which then can be used to create email surveys and send them to collect feedback from other internet users
 
 # Backend
+The backend is made with Node using Express framework
+
+# APIS
 
 # OAuth
 OAuth is handled with `Passportjs`. 
@@ -8,6 +12,18 @@ OAuth is handled with `Passportjs`.
 But we use at least 2 libraries `passport` is the core for handling auth in express apps
 
 Then we use `passport strategy` for the specific provider, for example google. facebook or github.
+
+# Stripe
+Stripe is an API that handles payment with credit cards, you have to sign in on their website and then use the provided API keys along with the component to work with it
+
+Note: on the frontend we only use the publishable key while in the backend we use the publishable and the secret key, both handled with their respective environment variables setup
+
+# Mongo Atlas
+Cloud Db service for mongodb to set up the database
+
+# Sendgrid
+Email delivery service for that part of our app
+
 
 # Body parser
 A middleware commonly used with express to parse the body of a post request into de req.body object
@@ -30,6 +46,7 @@ it requires a `setupProxy.js` in the `src` folder to do the mapping of urls to p
 this can also be done with `nginx` or via `docker-compose` with an `nginx` container
 
 # Heroku
+Heroku is a cloud application platform that can be used to deploy our applications using a git repository schema along with some other configurations
 
 ## Deploy
 
@@ -129,10 +146,7 @@ The combineReducers helper function turns an object whose values are different r
 reducers folder should go inside src, and should have an `index.js` file, along with all the reducer files
 
 
-# Stripe
-Stripe is an API that handles payment with credit cards, you have to sign in on their website and then use the provided API keys along with the component to work with it
 
-Note: on the frontend we only use the publishable key while in the backend we use the publishable and the secret key, both handled with their respective environment variables setup
 
 ## ReactStripeCheckout component
 `npm install react-stripe-checkout`, you then have to import it and use it as any component, but it has some required properties
