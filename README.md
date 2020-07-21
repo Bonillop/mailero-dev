@@ -81,6 +81,12 @@ to see the app `heroku open`
 ***
 # Frontend
 
+# React-router
+Used to handle routing in a Single Page Application. imported from `react-router-dom`
+
+## withRouter
+A function to arbitrarily expose the history object, as a prop, from react router to a component in order to let it navigate.
+
 ## Enviroment variables
 Create-react-app exposes a `NODE_ENV` variable in `process.env.NODE_ENV` where we can check the current environment
 
@@ -136,7 +142,7 @@ Redux thunk expects that your actions return a function, with a `dispatch` and `
 
 ## connect function
 The connect function is what lets a component connect to and use the store, it can receive as a first argument a
-mapStateToProps function, that takes a piece of the store and maps it as props of the component. And as a second
+mapStateToProps function, which we define and gets called with the whole store as an argument, that takes a piece of the store and maps it as props of the component. And as a second
 argument it can receive an array of functions that get translated to props, which usually will be the actions that component performs on the store
 
 ## combineReducers function
@@ -145,8 +151,24 @@ The combineReducers helper function turns an object whose values are different r
 ## Conventions
 reducers folder should go inside src, and should have an `index.js` file, along with all the reducer files
 
+## ReduxForm
+This library has helpers that simplify the management of form states in Redux
 
+### reduxForm function
+This function is used like the connect function, it takes an object and returns a function that has to be called with the form component as an argument like so. see `SurveyForm.js`
 
+    export default reduxForm({
+      validate: validate,
+      form: 'surveyForm',
+      destroyOnUnmount: false
+    })(SurveyForm);
+
+The options inside the object let you tweak the behaviour of the form, for example, validate takes a function that runs when you submit the form, in order to validate inputs. form takes the form name to identify it in the store and destroyOnUnmont (by default true) determines whether the form is destroyed, in order to keep or not to keep the values, in this case we decided to keep the values for the user to review
+
+In `SurveyNew.js`, we leave the default behaviour, so the values reset in case the user decides to cancel de survey
+
+### Field
+This component is used to render any field inside a form managed by reduxForm
 
 ## ReactStripeCheckout component
 `npm install react-stripe-checkout`, you then have to import it and use it as any component, but it has some required properties
